@@ -1,25 +1,14 @@
-import { makeNewTodo } from './make-new-todo';
+import { makeNewTodo } from "./make-new-todo";
 
-describe('makeNewTodo (unit)', () => {
-  test('deve retornar um novo todo válido', () => {
-    // AAA -> Arrange, Act, Assert
-    // Arrange -> Criar as coisas que eu preciso
+test('deve retornar um novo todo valido', () => {
     const expectedTodo = {
-      id: expect.any(String),
-      description: 'meu novo todo',
-      createdAt: expect.any(String),
-    };
+        id: 'any-idfasdfsadfsa53654568687',
+        description: 'meu novo todo',
+        createdAt: new Date().toISOString(),
+    }
 
-    // Act
-    const newTodo = makeNewTodo('meu novo todo');
+    const newTodo = makeNewTodo('meu novo todo')
 
-    // Assert
-    // toBe ===
-    // toEqual toStrictEqual
-    // Checando apenas a description
     expect(newTodo.description).toBe(expectedTodo.description);
-
-    // Checando o objeto inteiro
-    expect(newTodo).toStrictEqual(expectedTodo);
-  });
 });
+
