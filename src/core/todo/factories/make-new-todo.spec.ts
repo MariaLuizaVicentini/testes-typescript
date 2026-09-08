@@ -1,14 +1,20 @@
-import { makeNewTodo } from "./make-new-todo";
+import { makeNewTodo } from './make-new-todo';
 
-test('deve retornar um novo todo valido', () => {
+describe('makeNewTodo (Teste de unidade)', () => {
+  test('deve retornar um novo TODO válido', () => {
+    // AAA = Arrange, Act, Assert
     const expectedTodo = {
-        id: 'any-idfasdfsadfsa53654568687',
-        description: 'meu novo todo',
-        createdAt: new Date().toISOString(),
-    }
+      id: expect.any(String),
+      description: 'Meu Novo Todo',
+      createdAt: expect.any(String),
+    };
 
-    const newTodo = makeNewTodo('meu novo todo')
+    const newTodo = makeNewTodo('Meu Novo Todo');
 
+    // checando valores primitivos (igualdade estrita )
     expect(newTodo.description).toBe(expectedTodo.description);
-});
 
+    // checando o objeto inteiro (estrutura exata e tipos)
+    expect(newTodo).toStrictEqual(expectedTodo);
+  });
+});
