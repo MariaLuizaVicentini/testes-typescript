@@ -5,4 +5,4 @@ https://www.youtube.com/playlist?list=PLbIBj8vQhvm0pgOkQu3YzOfpQLvWRKdAG
 
 
 Aula em que parei:
-https://youtu.be/_5rSRf-J4D0?si=8m9pC5FmYSZarWlb
+https://youtu.be/5DwvF73brcQ?si=OBpQopI_Qm5Ge6sv
