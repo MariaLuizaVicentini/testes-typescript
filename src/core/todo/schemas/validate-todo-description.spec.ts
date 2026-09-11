@@ -4,7 +4,7 @@ describe('ValidateTodoDescription (unit)', () => {
   test('deve retornar erro quando a description tem menos que 4 caracteres', () => {
     const description = 'abc';
     const expected = {
-      errors: ['Descricao precisa ter mais de 3 caracteres'],
+      errors: ['Erro: description precisa ter mais de 3 caracteres'],
       success: false,
     };
 

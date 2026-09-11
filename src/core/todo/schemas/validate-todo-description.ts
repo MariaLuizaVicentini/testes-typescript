@@ -9,7 +9,7 @@ export function validateTodoDescription(
   const errors = [];
 
   if (description.length <= 3) {
-    errors.push('Descricao precisa ter mais de 3 caracteres');
+    errors.push('Erro: description precisa ter mais de 3 caracteres');
   }
 
   return {
