@@ -30,15 +30,27 @@ describe('makeValidatedTodo (unit)', () => {
   });
 
   test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {
-    const { description, makeNewTodoSpy } = makeMocks();
+    const { description, validaTodoDescriptionSpy, makeNewTodoSpy, todo } =
+      makeMocks();
 
-    const result = makeValidatedTodo(description);
+    const validaTodoDescriptionReturn = {
+      errors: [],
+      success: true,
+      data: description,
+    };
 
+    validaTodoDescriptionSpy.mockReturnValue(
+      validaTodoDescriptionReturn as any,
+    );
+
+    const result = makeValidatedTodo(description) as ValidTodo;
+
+    expect(result).toStrictEqual({
+      success: true,
+      data: todo,
+    });
     expect(makeNewTodoSpy).toHaveBeenCalledExactlyOnceWith(description);
-
-    expect(result).toStrictEqual(result);
   });
-
   test('deve retornar validatedDescription.error se a validacao falhou', () => {});
 });
 
@@ -46,7 +58,7 @@ const makeMocks = (description = 'abcd') => {
   const todo = {
     id: 'any-id',
     description,
-    createdAt: expect.any(String),
+    createdAt: new Date().toISOString(),
   };
 
   // Mock Function: sanitizeStr - simula a funcao com retorno 'abcd'
@@ -55,12 +67,10 @@ const makeMocks = (description = 'abcd') => {
     .mockReturnValue(description);
 
   // Mock Function: validateTodoDescription - simula a funcao com retorno success
-  const validaTodoDescriptionSpy = vi
-    .spyOn(validateTodoDescriptionMod, 'validateTodoDescription')
-    .mockReturnValue({
-      errors: [],
-      success: true,
-    });
+  const validaTodoDescriptionSpy = vi.spyOn(
+    validateTodoDescriptionMod,
+    'validateTodoDescription',
+  );
 
   // Mock Function: makeNewTodo - simula a funcao com retorno do Todo criado
   const makeNewTodoSpy = vi
