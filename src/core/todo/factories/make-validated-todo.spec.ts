@@ -1,4 +1,8 @@
-import { makeValidatedTodo, ValidTodo } from './make-validated-todo';
+import {
+  InvalidTodo,
+  makeValidatedTodo,
+  ValidTodo,
+} from './make-validated-todo';
 import * as validateTodoDescriptionMod from '../schemas/validate-todo-description';
 import * as sanitizeStrMod from '../../utils/sanitize-str';
 import * as makeNewTodoMod from '../factories/make-new-todo';
@@ -51,7 +55,22 @@ describe('makeValidatedTodo (unit)', () => {
     });
     expect(makeNewTodoSpy).toHaveBeenCalledExactlyOnceWith(description);
   });
-  test('deve retornar validatedDescription.error se a validacao falhou', () => {});
+  test('deve retornar validatedDescription.error se a validacao falhou', () => {
+    const { description, validaTodoDescriptionSpy } = makeMocks();
+    const errors = ['any', 'error'];
+
+    validaTodoDescriptionSpy.mockReturnValue({
+      errors,
+      success: false,
+    });
+
+    const result  = makeValidatedTodo(description) as InvalidTodo;
+
+    expect(result).toStrictEqual({
+      errors: ['any', 'error'],
+      success: false,
+    });
+  });
 });
 
 const makeMocks = (description = 'abcd') => {
