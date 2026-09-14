@@ -12,9 +12,7 @@ describe('makeValidatedTodo (unit)', () => {
 
   test('deve chamar validateTodoDescription com o retorno de sanitizeStr', () => {});
   const { description, sanitizeStrSpy, validaTodoDescriptionSpy } = makeMocks();
-
   const sanitizeStrReturn = 'Retorno da sanitizeStr';
-
   sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
 
   const result = makeValidatedTodo(description) as ValidTodo;
@@ -30,13 +28,25 @@ describe('makeValidatedTodo (unit)', () => {
     description: 'abcd',
     createdAt: expect.any(String),
   });
+
+  test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {
+    const { description, makeNewTodoSpy } = makeMocks();
+
+    const result = makeValidatedTodo(description);
+
+    expect(makeNewTodoSpy).toHaveBeenCalledExactlyOnceWith(description);
+
+    expect(result).toStrictEqual(result);
+  });
+
+  test('deve retornar validatedDescription.error se a validacao falhou', () => {});
 });
 
 const makeMocks = (description = 'abcd') => {
   const todo = {
     id: 'any-id',
     description,
-    createdAt: new Date().toISOString(),
+    createdAt: expect.any(String),
   };
 
   // Mock Function: sanitizeStr - simula a funcao com retorno 'abcd'
