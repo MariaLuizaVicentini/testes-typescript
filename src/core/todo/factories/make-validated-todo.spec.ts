@@ -14,58 +14,50 @@ describe('makeValidatedTodo (unit)', () => {
     expect(sanitizeStrSpy).toHaveBeenCalledExactlyOnceWith(description);
   });
 
-  test('deve chamar validateTodoDescription com o retorno de sanitizeStr', () => {});
-  const { description, sanitizeStrSpy, validaTodoDescriptionSpy } = makeMocks();
-  const sanitizeStrReturn = 'Retorno da sanitizeStr';
-  sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
-
-  const result = makeValidatedTodo(description) as ValidTodo;
-
-  expect(validaTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
-    sanitizeStrReturn,
-  );
-
-  expect(result.success).toBe(true);
-
-  expect(result.data).toStrictEqual({
-    id: 'any-id',
-    description: 'abcd',
-    createdAt: expect.any(String),
+  test('deve chamar validateTodoDescription com o retorno de sanitizeStr', () => {
+    const { description, sanitizeStrSpy, validaTodoDescriptionSpy } =
+      makeMocks();
+    const sanitizeStrReturn = 'Retorno da sanitizeStr';
+    sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
+    const result = makeValidatedTodo(description) as ValidTodo;
+    expect(validaTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
+      sanitizeStrReturn,
+    );
+    expect(result.success).toBe(true);
+    expect(result.data).toStrictEqual({
+      id: 'any-id',
+      description: 'abcd',
+      createdAt: expect.any(String),
+    });
   });
 
   test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {
     const { description, validaTodoDescriptionSpy, makeNewTodoSpy, todo } =
       makeMocks();
-
     const validaTodoDescriptionReturn = {
       errors: [],
       success: true,
       data: description,
     };
-
     validaTodoDescriptionSpy.mockReturnValue(
       validaTodoDescriptionReturn as any,
     );
-
     const result = makeValidatedTodo(description) as ValidTodo;
-
     expect(result).toStrictEqual({
       success: true,
       data: todo,
     });
     expect(makeNewTodoSpy).toHaveBeenCalledExactlyOnceWith(description);
   });
+
   test('deve retornar validatedDescription.error se a validacao falhou', () => {
     const { description, validaTodoDescriptionSpy } = makeMocks();
     const errors = ['any', 'error'];
-
     validaTodoDescriptionSpy.mockReturnValue({
       errors,
       success: false,
     });
-
-    const result  = makeValidatedTodo(description) as InvalidTodo;
-
+    const result = makeValidatedTodo(description) as InvalidTodo;
     expect(result).toStrictEqual({
       errors: ['any', 'error'],
       success: false,

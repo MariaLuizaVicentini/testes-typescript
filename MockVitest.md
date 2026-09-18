@@ -45,11 +45,17 @@ CASO DE USO:
 SINTAXE:
 
 ```ts
+import * as nameMod from '../dir/nameDoMod' 
+
 vi.spyOn(objeto, metodo)
 vi.spyOn(objeto, metodo).mockReturnValue(valor)
 vi.spyOn(objeto, metodo).mockResolvedValue(valor)
 vi.spyOn(objeto, metodo).mockRejectedValue(erro)
 ```
+#### `import * as nameMod`
+- empacota todas as exportações do Mod em um único objeto, permitindo que o Vitest monitore as chamadas
+- É uma forma de respeitar a sintaxe do vi.spyOn, que espera um objeto como primeiro argumento
+
 #### `mockReturnValue`
 - Usado para simular o retorno de uma função comum (síncrona / não async)
 #### `mockResolvedValue`
