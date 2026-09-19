@@ -26,6 +26,14 @@ describe('makeValidatedTodo (unit)', () => {
     expect(validaTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
       sanitizeStrReturn,
     );
+    expect(result).toStrictEqual({
+      success: true,
+      data: {
+        id: 'any-id',
+        description: 'abcd',
+        createdAt: expect.any(String),
+      },
+    });
   });
 
   test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {});
