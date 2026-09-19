@@ -1,3 +1,13 @@
+# Testes Unitarios
+
+Devem testar a menor parte isolada do código.
+
+Caracteristicas:
+- **ISOLAMENTO**: Uso de mock pra simular dependencias
+- **RÁPIDO**: execucao em ms
+- **FOCO UNICO**: um teste deve validar UM comportamento
+
+
 # Objeto `vi.` do Vitest
 
 É um objeto utilitário que disponibiliza diversos métodos para simular funções, módulos/imports, variáveis globais e variáveis de ambiente, entre outras coisas.
@@ -8,9 +18,14 @@
 
 - Simula módulos/imports.
 - Usado quando não queremos executar a implementação real de uma dependência.
-- Permite testar a sua função, e não o comportamento daquela dependência.
+ -Permite testar a sua função sem depender do comportamento real daquela dependência.
+
 
 CASO DE USO:
+Especialmente quando queremos testar uma função que depende de funções de outros módulos.
+Para isso, usamos mocks, que simulam o módulo e seus retornos, apenas para permitir que a função seja executada durante o teste.
+Exemplos de dependências que podem ser mockadas:
+
 - API
 - Serviço
 - Banco de dados
@@ -23,6 +38,32 @@ vi.mock(modulo)
 vi.mock(modulo, fabrica)
 vi.mock(modulo, fabrica, opcoes)
 ```
+#### `modulo`
+- importacao real do modulo que vai ser mocado 
+Ex:
+```ts
+vi.mock('../service/api')
+```
+- É usado quando o teste não precisa se preocupar com a lógica interna do módulo.
+
+Quando usado dessa forma:
+- As funções exportadas pelo módulo são substituídas por vi.fn.
+- As funções não possuem uma lógica definida.
+- Por isso, retornam undefined.
+
+
+#### `fabrica`
+```ts
+vi.mock('../service/api', () => {
+    return {
+        sanitizeStr: v.fn((description) => description.trim()),
+        validateTodoDescription: vi.fn().mockReturnValue(true),
+        makeNewTodo: vi.fn(),
+    }
+});
+```
+- A fabrica recebe uma função (factory) que retorna um objeto simulado.
+- É usada quando precisamos controlar a lógica ou o retorno de uma função do módulo mockado
 
 ---
 
