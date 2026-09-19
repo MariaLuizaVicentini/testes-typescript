@@ -20,27 +20,34 @@ describe('makeValidatedTodo (unit)', () => {
     const sanitizeStrReturn = 'retorn da sanitizeStr';
     sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
 
-    const result = makeValidatedTodo(description);
-    console.log(result);
+    makeValidatedTodo(description);
 
     expect(validaTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
       sanitizeStrReturn,
     );
-    expect(result).toStrictEqual({
-      success: true,
-      data: {
-        id: 'any-id',
-        description: 'abcd',
-        createdAt: expect.any(String),
-      },
-    });
   });
 
-  test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {});
-  test('deve retornar validatedDescription.error se a validacao falhou', () => {});
+  test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {
+    const { description } = makeMocks();
+
+    const result = makeValidatedTodo(description) as ValidTodo;
+
+    expect(result.success).toBe(true);
+  });
+
+  test('deve retornar validatedDescription.error se a validacao falhou', () => {
+    const { description, validaTodoDescriptionSpy, errors } = makeMocks();
+
+    validaTodoDescriptionSpy.mockReturnValue({ errors, success: false });
+    const result = makeValidatedTodo(description) as InvalidTodo;
+
+    expect(result).toStrictEqual({ errors, success: false });
+  });
 });
 
 const makeMocks = (description = 'abcd') => {
+  const errors = ['any', 'error'];
+
   const todo = {
     id: 'any-id',
     description,
@@ -53,10 +60,7 @@ const makeMocks = (description = 'abcd') => {
 
   const validaTodoDescriptionSpy = vi
     .spyOn(validateTodoDescriptionMod, 'validateTodoDescription')
-    .mockReturnValue({
-      errors: [],
-      success: true,
-    });
+    .mockReturnValue({ errors: [], success: true });
 
   const makeNewTodoSpy = vi
     .spyOn(makeNewTodoMod, 'makeNewTodo')
@@ -67,5 +71,6 @@ const makeMocks = (description = 'abcd') => {
     sanitizeStrSpy,
     validaTodoDescriptionSpy,
     makeNewTodoSpy,
+    errors,
   };
 };
