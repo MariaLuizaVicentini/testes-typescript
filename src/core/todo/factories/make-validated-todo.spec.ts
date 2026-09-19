@@ -19,9 +19,7 @@ describe('makeValidatedTodo (unit)', () => {
       makeMocks();
     const sanitizeStrReturn = 'retorn da sanitizeStr';
     sanitizeStrSpy.mockReturnValue(sanitizeStrReturn);
-
     makeValidatedTodo(description);
-
     expect(validaTodoDescriptionSpy).toHaveBeenCalledExactlyOnceWith(
       sanitizeStrReturn,
     );
@@ -29,18 +27,14 @@ describe('makeValidatedTodo (unit)', () => {
 
   test('deve chamar makeNewTodo se validatedDescription retornou sucesso', () => {
     const { description } = makeMocks();
-
     const result = makeValidatedTodo(description) as ValidTodo;
-
     expect(result.success).toBe(true);
   });
 
   test('deve retornar validatedDescription.error se a validacao falhou', () => {
     const { description, validaTodoDescriptionSpy, errors } = makeMocks();
-
     validaTodoDescriptionSpy.mockReturnValue({ errors, success: false });
     const result = makeValidatedTodo(description) as InvalidTodo;
-
     expect(result).toStrictEqual({ errors, success: false });
   });
 });
